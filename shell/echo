@@ -1,0 +1,22 @@
+#!/bin/bash
+
+file="name.txt"
+filelist=($(ls -t *.mp3))
+
+readarray -t list < "$file"
+
+newlist=()
+
+for item in "${list[@]}"
+do
+    newitem=$(echo "$item" | sed -e 's/[[:space:]]*$//')
+    newlist+=("$newitem")
+done
+
+len=${#filelist[@]}
+
+for ((i=0; i<$len; i++))
+do
+    mv "${filelist[i]}" "${newlist[i]}.mp3"
+    echo "Move:${filelist[i]} to ${newlist[i]}.mp3"
+done
